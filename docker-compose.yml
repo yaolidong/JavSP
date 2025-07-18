@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  javsp:
+    build: .
+    container_name: javsp
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      # 输入视频目录（只读挂载）
+      - ./video:/video:ro
+      # 元数据/封面等输出目录
+      - ./output:/output
+      # 可选：挂载自定义配置文件
+      - ./config.yml:/app/config.yml:ro
+    restart: unless-stopped
