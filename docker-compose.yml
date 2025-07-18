@@ -5,6 +5,10 @@ services:
     container_name: javsp
     environment:
       - TZ=Asia/Shanghai
+      # 指定待处理视频输入目录（容器内路径）
+      - INPUT_DIR=/video
+      # 指定整理后输出目录（容器内路径）
+      - OUTPUT_DIR=/output
     volumes:
       # 输入视频目录（只读挂载）
       - ./video:/video:ro
