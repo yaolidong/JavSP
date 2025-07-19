@@ -16,15 +16,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends git && \
 # Copy dependency descriptors first for layer caching
 COPY pyproject.toml poetry.lock ./
 # 新增：将 Git 历史复制进镜像，供 poetry-dynamic-versioning 读取
-COPY .git ./
+COPY .git ./.git
+
+# Copy project source code
+COPY . .
 
 # Install project dependencies inside an in-project virtualenv
 RUN poetry self add poetry-dynamic-versioning && \
     poetry config virtualenvs.in-project true && \
     poetry install --no-interaction --no-ansi --only main
-
-# Copy project source code
-COPY . .
 
 # Clean up unnecessary data to keep image slim
 RUN rm -rf .git
