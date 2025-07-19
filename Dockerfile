@@ -14,6 +14,9 @@ RUN pip install --no-cache-dir pipx && \
 # Copy project source code
 COPY . .
 
+# Initialize a git repository
+RUN git init
+
 # Install project dependencies inside an in-project virtualenv
 RUN poetry self add poetry-dynamic-versioning && \
     poetry config virtualenvs.in-project true && \
