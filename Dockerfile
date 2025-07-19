@@ -8,7 +8,7 @@ WORKDIR /app
 ENV PATH=/root/.local/bin:$PATH
 RUN pip install --no-cache-dir pipx && \
     pipx install poetry && \
-    apt-get update && apt-get install -y --no-install-recommends git && \
+    apt-get update && apt-get install -y --no-install-recommends git cmake && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy project source code
@@ -16,9 +16,12 @@ COPY . .
 
 # Initialize a git repository
 RUN git init
+RUN git config --global credential.helper store
 
 # Install project dependencies inside an in-project virtualenv
-RUN poetry self add poetry-dynamic-versioning && \
+RUN git clone --recursive https://github.com/shifei/slime-face.git && \
+    pip install ./slime-face && \
+    poetry self add poetry-dynamic-versioning && \
     poetry config virtualenvs.in-project true && \
     poetry install --no-interaction --no-ansi
 
